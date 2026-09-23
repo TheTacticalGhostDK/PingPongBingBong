@@ -43,7 +43,6 @@ Version:   1.0
 
 import turtle
 import random       # ref.: https://docs.python.org/3/library/random.html#module-random
-import keyboard     # To  install keyboard:  pip install keyboard
                     # Ref.: https://pypi.org/project/keyboard/
 
 # Opsætning af skærmen
