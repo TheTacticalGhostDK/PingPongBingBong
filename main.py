@@ -121,7 +121,7 @@ while running:
     # Tastaturbinding
     
     
-        
+    
     # Flyt bolden
     
     
