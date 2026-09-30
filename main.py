@@ -42,8 +42,30 @@ Version:   1.0
 """
 
 import turtle
-import random       # ref.: https://docs.python.org/3/library/random.html#module-random
-                    # Ref.: https://pypi.org/project/keyboard/
+
+from game.controllers import (
+    move_ai,
+    move_paddle_down,
+    move_paddle_up,
+)
+
+from game.physics import (
+    bounce_from_walls,
+    check_paddle_collision,
+    get_scoring_side,
+    move_ball,
+    reset_ball,
+)
+
+from game.settings import (
+    BALL_SPEED_X,
+    BALL_SPEED_Y,
+    FRAME_DELAY,
+    MODE_AI_PLAYER,
+    PADDLE_X_OFFSET,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+)
 
 # Opsætning af skærmen
 skærm = turtle.Screen()

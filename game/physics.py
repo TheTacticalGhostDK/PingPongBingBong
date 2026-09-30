@@ -29,6 +29,24 @@ def move_ball(ball):
 def bounce_from_walls(ball):
     """Bounce the ball when it touches the top or bottom wall."""
 
+    # Calculate the highest position the ball can reach.
+    top_wall = SCREEN_HEIGHT / 2 - BALL_RADIUS
+
+    # Calculate the lowest position the ball can reach.
+    bottom_wall = -SCREEN_HEIGHT / 2 + BALL_RADIUS
+
+    # If the ball reaches the top while moving upward,
+    # move it away from the wall and send it downward.
+    if ball.ycor() >= top_wall and ball.dy > 0:
+        ball.sety(top_wall)
+        ball.dy *= -1
+
+    # If the ball reaches the bottom while moving downward,
+    # move it away from the wall and send it upward.
+    elif ball.ycor() <= bottom_wall and ball.dy < 0:
+        ball.sety(bottom_wall)
+        ball.dy *= -1
+
 
 def check_paddle_collision(ball, paddle, moving_right):
     """Check whether the ball has hit a paddle.
