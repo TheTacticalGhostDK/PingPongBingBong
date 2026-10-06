@@ -71,36 +71,36 @@ from game.settings import (
 skærm = turtle.Screen()
 skærm.title("Pong - Programmering er sjovt!")
 skærm.bgcolor("black")
-skærm.setup(width=800, height=600)
+skærm.setup(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 skærm.tracer(0)  # Slår automatisk opdatering fra
 
-# Venstre paddle (spilleren)
+# Left paddle: player-controlled
 paddle_venstre = turtle.Turtle()
 paddle_venstre.speed(0)
 paddle_venstre.shape("square")
 paddle_venstre.color("white")
 paddle_venstre.shapesize(stretch_wid=5, stretch_len=1)
 paddle_venstre.penup()
-paddle_venstre.goto(-350, 0)
+paddle_venstre.goto(-PADDLE_X_OFFSET, 0)
 
-# Højre paddle (væggen - AI)
+# Right paddle: AI-controlled
 paddle_højre = turtle.Turtle()
 paddle_højre.speed(0)
 paddle_højre.shape("square")
 paddle_højre.color("white")
 paddle_højre.shapesize(stretch_wid=5, stretch_len=1)
 paddle_højre.penup()
-paddle_højre.goto(350, 0)
+paddle_højre.goto(PADDLE_X_OFFSET, 0)
 
-# Bolden
+# Ball
 bold = turtle.Turtle()
 bold.speed(0)
 bold.shape("circle")
 bold.color("white")
 bold.penup()
 bold.goto(0, 0)
-bold.dx = .2  # Hastighed i x-retning
-bold.dy = .2  # Hastighed i y-retning
+bold.dx = BALL_SPEED_X  # Hastighed i x-retning
+bold.dy = BALL_SPEED_Y  # Hastighed i y-retning
 
 # Score
 score_venstre = 0
@@ -113,52 +113,82 @@ score_display.hideturtle()
 score_display.goto(0, 260)
 score_display.write(f"{score_venstre} : {score_højre}", align="center", font=("Arial", 24, "bold"))
 
+def paddle_op():
+    move_paddle_up(paddle_venstre)
 
-running = True
-
-
-
-### Funktioner til at bevæge paddle
-##def paddle_op():
-##  skriv koden
-##  
-##def paddle_ned():
-##  skriv koden
+def paddle_ned():
+    move_paddle_down(paddle_venstre)
 
 def stop():
     global running
     running = False
 
-
 # Tastaturbinding
 skærm.listen()
-##skærm.onkeypress(paddle_op, "Up")
-##skærm.onkeypress(paddle_ned, "Down")
+skærm.onkeypress(paddle_op, "Up")
+skærm.onkeypress(paddle_ned, "Down")
 skærm.onkeypress(stop, "Escape")
+
+keys = {"Up": False, "Down": False}
+
+def set_key(key_name, is_pressed):
+    keys[key_name] = is_pressed
+
+def paddle_up_pressed():
+    keys["Up"] = True
+
+def paddle_up_released():
+    keys["Up"] = False
+
+def paddle_down_pressed():
+    keys["Down"] = True
+
+def paddle_down_released():
+    keys["Down"] = False
+
+skærm.onkeypress(paddle_up_pressed, "Up")
+skærm.onkeyrelease(paddle_up_released, "Up")
+skærm.onkeypress(paddle_down_pressed, "Down")
+skærm.onkeyrelease(paddle_down_released, "Down")
+
+running = True
+
+score_venstre = 0
+score_højre = 0
 
 # Hovedspil-løkke
 while running:
+    if keys["Up"] and not keys["Down"]:
+        move_paddle_up(paddle_venstre)
+    elif keys["Down"] and not keys["Up"]:
+        move_paddle_down(paddle_venstre)
+
+    # Move the ball
+    move_ball(bold)
+
+    # Bounce from top and bottom
+    bounce_from_walls(bold)
+
+    # Left paddle collision
+    check_paddle_collision(bold, paddle_venstre, moving_right=False)
+
+    # Right paddle collision
+    check_paddle_collision(bold, paddle_højre, moving_right=True)
+
+    # Simple AI: right paddle follows the ball
+    move_ai(paddle_højre, bold)
+
+    # Check if someone scored
+    winner = get_scoring_side(bold)
+
+    if winner == "left":
+        score_venstre += 1
+        reset_ball(bold, 1)
+
+    elif winner == "right":
+        score_højre += 1
+        reset_ball(bold, -1)
+
     skærm.update()
 
-    # Tastaturbinding
-    
-    
-    
-    # Flyt bolden
-    
-    
-    # Kollision med top og bund
-    
-    
-    # Kollision med venstre paddle
-    
-    
-    # Kollision med højre paddle (AI)
-    
-    
-    # AI-bevægelse (følger bolden)
-    
-    
-    # Scoring
-    
 skærm.bye()

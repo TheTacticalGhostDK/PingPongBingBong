@@ -27,8 +27,8 @@ PADDLE_LIMIT = SCREEN_HEIGHT // 2 - PADDLE_HALF_HEIGHT
 
 # ball movement speed on the x and y axis.
 # The ball moves diagonally.
-BALL_SPEED_X = 4
-BALL_SPEED_Y = 4
+BALL_SPEED_X = 0.2
+BALL_SPEED_Y = 0.2
 
 # Ball size.
 BALL_RADIUS = 10
