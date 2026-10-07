@@ -12,10 +12,10 @@ SCREEN_HEIGHT = 600
 PADDLE_X_OFFSET = 350
 
 # How fast the player can move a paddle
-PADDLE_SPEED = 20
+PADDLE_SPEED = 0.5
 
 # How fast the AI moves toward the ball.
-AI_SPEED = 4
+AI_SPEED = 0.1
 
 # The paddle is 100 pixels tall.
 # This value is halft of that height, so we can keep it inside the screen.
