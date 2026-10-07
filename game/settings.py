@@ -15,7 +15,7 @@ PADDLE_X_OFFSET = 350
 PADDLE_SPEED = 0.5
 
 # How fast the AI moves toward the ball.
-AI_SPEED = 0.1
+AI_SPEED = 1
 
 # The paddle is 100 pixels tall.
 # This value is halft of that height, so we can keep it inside the screen.
