@@ -41,7 +41,7 @@ def move_paddle_down(paddle):
     move_paddle(paddle, -PADDLE_SPEED)
 
 
-def move_ai(paddle, ball):
+def move_ai(paddle, ball, aim_offset=0):
     """Make the AI paddle follow the ball's y-position.
     
     This is a simple AI:
@@ -53,12 +53,15 @@ def move_ai(paddle, ball):
         paddle: the AI paddle object
         ball: the ball object
     """
+    # The AI aims for the ball's height plus its chosen offset.
+    target_y = ball.ycor() + aim_offset
+
     # If the ball is above the paddle, move upward
-    if ball.ycor() > paddle.ycor():
+    if target_y > paddle.ycor():
         move_paddle(paddle, AI_SPEED)
 
     # If the ball is below the paddle, move downward.
-    elif ball.ycor() < paddle.ycor():
+    elif target_y < paddle.ycor():
         move_paddle(paddle, -AI_SPEED)
 
     # If the ball and paddle are not the same height, do nothing.

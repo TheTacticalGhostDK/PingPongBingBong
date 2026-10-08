@@ -3,7 +3,7 @@
 # For example, if we want a bigger screen or faster paddle, we change
 # the numbers here instead of changing the game logic itself.
 
-# Teh screen is 800 pixels wide and 600 pixels tall.
+# The screen is 800 pixels wide and 600 pixels tall.
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
@@ -16,6 +16,8 @@ PADDLE_SPEED = 0.5
 
 # How fast the AI moves toward the ball.
 AI_SPEED = 1
+AI_MISS_CHANCE = 1
+AI_MISS_DISTANCE = 70
 
 # The paddle is 100 pixels tall.
 # This value is halft of that height, so we can keep it inside the screen.

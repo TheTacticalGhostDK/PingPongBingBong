@@ -42,6 +42,7 @@ Version:   1.0
 """
 
 import turtle
+import random
 
 from game.controllers import (
     move_ai,
@@ -65,6 +66,8 @@ from game.settings import (
     PADDLE_X_OFFSET,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
+    AI_MISS_CHANCE,
+    AI_MISS_DISTANCE,
 )
 
 # Opsætning af skærmen
@@ -119,6 +122,13 @@ def paddle_op():
 def paddle_ned():
     move_paddle_down(paddle_venstre)
 
+def choose_ai_offset():
+    """Choose whether the AI aims away from the ball this rally."""
+    if random.random() < AI_MISS_CHANCE:
+        return -AI_MISS_DISTANCE
+
+    return 0
+
 def stop():
     global running
     running = False
@@ -156,6 +166,8 @@ running = True
 score_venstre = 0
 score_højre = 0
 
+ai_aim_offset = choose_ai_offset()
+
 # Hovedspil-løkke
 while running:
     if keys["Up"] and not keys["Down"]:
@@ -176,7 +188,7 @@ while running:
     check_paddle_collision(bold, paddle_højre, moving_right=True)
 
     # Simple AI: right paddle follows the ball
-    move_ai(paddle_højre, bold)
+    move_ai(paddle_højre, bold, ai_aim_offset)
 
     # Check if someone scored
     winner = get_scoring_side(bold)
@@ -184,10 +196,12 @@ while running:
     if winner == "left":
         score_venstre += 1
         reset_ball(bold, 1)
+        ai_aim_offset = choose_ai_offset()
 
     elif winner == "right":
         score_højre += 1
         reset_ball(bold, -1)
+        ai_aim_offset = choose_ai_offset()
 
     skærm.update()
 
